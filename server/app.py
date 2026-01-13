@@ -48,6 +48,14 @@ Git Collaboaration guide:
 8. You need to pull from the remote main barnch to your local main branch
 """
 
+"""
+Tasks:
+1. Update migration: adding email and password to the mentor's table: Grace
+2. Create the registration endpoint and logic: Verah
+3. Create the login endpoint and logic: Dan
+4. Allow users to login from the front-end: Sam
+"""
+
 
 class Mentors(Resource):
 
@@ -58,7 +66,7 @@ class Mentors(Resource):
 
     def post(self):
         data  = request.get_json()
-        mentor = Mentor(name=data['name'], expertise=data['expertise'])
+        mentor = Mentor(name=data['name'])
         db.session.add_all([mentor])
         db.session.commit()
 
