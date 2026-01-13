@@ -5,8 +5,7 @@ from sqlalchemy import func
 from models import db, Mentor, Cohort, Student
 from flask_cors import CORS
 
-
-
+from routes.auth_routes import auth_bp
 
 
 app = Flask(__name__) 
@@ -23,11 +22,16 @@ CORS(app, resources={
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///moringa.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db.init_app(app)
+bcrypt.init_app(app)
 
 migrate = Migrate(app, db)
 
 api = Api(app)
+
+app.register_blueprint(auth_bp)
+
 
 # CORS(app)
 
