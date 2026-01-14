@@ -4,6 +4,7 @@ from flask_migrate import Migrate #Alembic: to run migrations
 from sqlalchemy import func
 from models import db, Mentor, Cohort, Student
 from flask_cors import CORS
+from werkzeug.security import check_password_hash
 
 from routes.auth_routes import auth_bp
 
@@ -90,8 +91,24 @@ class MentorsById(Resource):
 api.add_resource(MentorsById, '/mentors/<int:id>')
 
 
+class Login(Resource):
+    def post(self):
+        data = request.get_json()
 
+        if not data or "email" not in data or "password" not in data:
+            return make_response({"error": "Email and password required"}, 400)
 
+        mentor = Mentor.query.filter_by(email=data["email"]).first()
+
+        if not mentor:
+            return make_response({"error": "Invalid credentials"}, 401)
+
+        if not check_password_hash(mentor.password_hash, data["password"]):
+            return make_response({"error": "Invalid credentials"}, 401)
+
+        return make_response(mentor.to_dict(), 200)
+
+api.add_resource(Login, "/login")
 
 
 if __name__ == '__main__':
