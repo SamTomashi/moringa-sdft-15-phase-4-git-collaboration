@@ -5,11 +5,13 @@ from sqlalchemy_serializer import SerializerMixin
 metadata = MetaData()
 db = SQLAlchemy(metadata=metadata)
 
-class Mentor(db.Model):
+class Mentor(db.Model, SerializerMixin):
     __tablename__ = 'mentors'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
+    email = db.Column(db.String, nullable=True)
+    password = db.Column(db.String, nullable=True)
 
     cohorts = db.relationship('Cohort', back_populates='mentor', cascade='all, delete-orphan')
 

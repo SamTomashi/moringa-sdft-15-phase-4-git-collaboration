@@ -66,7 +66,7 @@ class Mentors(Resource):
 
     def post(self):
         data  = request.get_json()
-        mentor = Mentor(name=data['name'])
+        mentor = Mentor(name=data['name'], email=data['email'], password=data['password'])
         db.session.add_all([mentor])
         db.session.commit()
 
@@ -93,6 +93,18 @@ class MentorsById(Resource):
 
 api.add_resource(MentorsById, '/mentors/<int:id>')
 
+
+class Login(Resource):
+
+    def post(self):
+        data  = request.get_json()
+        user = Mentor.query.filter(Mentor.email==data["email"], Mentor.password==data["password"]).first()
+        if user: 
+            return make_response("login successfully", 200)
+        
+        return make_response("Wrong credentials", 401)
+        
+api.add_resource(Login, '/login')
 
 
 
