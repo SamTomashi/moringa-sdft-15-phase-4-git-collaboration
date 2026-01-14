@@ -7,30 +7,13 @@ metadata = MetaData()
 db = SQLAlchemy(metadata=metadata)
 bcrypt = Bcrypt()
 
-# auth model
-class User(db.Model, SerializerMixin):
-    __tablename__ = 'users'
-
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String, unique=True, nullable=False)
-    password_hash = db.Column(db.String, nullable=False)
-
-    @property
-    def password(self):
-        raise AttributeError("Password is not a readable attribute.")
-
-    @password.setter
-    def password(self, password):
-        self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
-
-    def verify_password(self, password):
-        return bcrypt.check_password_hash(self.password_hash, password)
-    
-class Mentor(db.Model):
+class Mentor(db.Model, SerializerMixin):
     __tablename__ = 'mentors'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
+    email = db.Column(db.String, nullable=True)
+    password = db.Column(db.String, nullable=True)
 
     cohorts = db.relationship('Cohort', back_populates='mentor', cascade='all, delete-orphan')
 

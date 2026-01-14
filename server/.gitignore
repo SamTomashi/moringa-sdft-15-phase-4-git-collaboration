@@ -1,0 +1,61 @@
+# -------------------------
+# Python cache & build files
+# -------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# -------------------------
+# Virtual environment folders
+# -------------------------
+venv/
+env/
+ENV/
+.venv/
+.python-version
+
+# -------------------------
+# Flask & SQLAlchemy
+# -------------------------
+server/instance/           # Flask instance folder (contains config, secrets)
+*.db                # SQLite database files
+*.sqlite3
+migrations/         # Alembic/Flask-Migrate migration files (if generated locally)
+*.log               # Log files
+
+# -------------------------
+# Environment & secrets
+# -------------------------
+.env
+.env.*
+*.pem
+*.crt
+*.key
+
+# -------------------------
+# IDE & editor settings
+# -------------------------
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# -------------------------
+# OS-specific files
+# -------------------------
+.DS_Store
+Thumbs.db
+
+# -------------------------
+# Testing & coverage
+# -------------------------
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/

@@ -53,6 +53,14 @@ Git Collaboaration guide:
 8. You need to pull from the remote main barnch to your local main branch
 """
 
+"""
+Tasks:
+1. Update migration: adding email and password to the mentor's table: Grace
+2. Create the registration endpoint and logic: Verah
+3. Create the login endpoint and logic: Dan
+4. Allow users to login from the front-end: Sam
+"""
+
 
 class Mentors(Resource):
 
@@ -63,7 +71,7 @@ class Mentors(Resource):
 
     def post(self):
         data  = request.get_json()
-        mentor = Mentor(name=data['name'], expertise=data['expertise'])
+        mentor = Mentor(name=data['name'], email=data['email'], password=data['password'])
         db.session.add_all([mentor])
         db.session.commit()
 
@@ -92,8 +100,17 @@ api.add_resource(MentorsById, '/mentors/<int:id>')
 
 
 class Login(Resource):
+
     def post(self):
-        data = request.get_json()
+        data  = request.get_json()
+        user = Mentor.query.filter(Mentor.email==data["email"], Mentor.password==data["password"]).first()
+        if user: 
+            return make_response("login successfully", 200)
+        
+        return make_response("Wrong credentials", 401)
+        
+api.add_resource(Login, '/login')
+
 
         if not data or "email" not in data or "password" not in data:
             return make_response({"error": "Email and password required"}, 400)
