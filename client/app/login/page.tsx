@@ -17,7 +17,18 @@ export default function LoginPage() {
   const [error, setError] = useState("")
   const [isPending, startTransition] = useTransition()
   const router = useRouter()
-  const { login } = useAuth()
+  // const { login } = useAuth()
+
+  const login = async (email:string, password:string)=>{
+    return await fetch("http://localhost:5555/login",{
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      body:JSON.stringify({email, password})
+    })
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -28,14 +39,21 @@ export default function LoginPage() {
       return
     }
 
-    startTransition(async () => {
-      try {
-        await login(email, password)
-        router.push("/")
-      } catch (err) {
-        setError("Login failed. Please check your credentials.")
-      }
-    })
+    const user = await login(email, password)
+
+    console.log(user)
+    
+
+    // console.log(email, password)
+
+    // startTransition(async () => {
+    //   try {
+    //     await login(email, password)
+    //     router.push("/")
+    //   } catch (err) {
+    //     setError("Login failed. Please check your credentials.")
+    //   }
+    // })
   }
 
   return (
