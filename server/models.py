@@ -1,9 +1,11 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 from sqlalchemy_serializer import SerializerMixin
+from flask_bcrypt import Bcrypt
 
 metadata = MetaData()
 db = SQLAlchemy(metadata=metadata)
+bcrypt = Bcrypt()
 
 class Mentor(db.Model, SerializerMixin):
     __tablename__ = 'mentors'
